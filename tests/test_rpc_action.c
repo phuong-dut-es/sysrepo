@@ -132,7 +132,7 @@ clear_ops(void **state)
     sr_delete_item(st->sess, "/ops-ref:l1", 0);
     sr_delete_item(st->sess, "/ops-ref:l2", 0);
     sr_delete_item(st->sess, "/ops:cont", 0);
-    sr_apply_changes(st->sess, 0, 0);
+    sr_apply_changes(st->sess, 0);
 
     return 0;
 }
@@ -308,7 +308,7 @@ test_rpc(void **state)
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_set_item_str(st->sess, "/ops-ref:l2", "l2-val", NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     /*
@@ -475,7 +475,7 @@ test_action(void **state)
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_set_item_str(st->sess, "/ops:cont/l12", "l12-val", NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     /* subscribe to the data so they are actually present in operational */
@@ -601,7 +601,7 @@ test_action_pred(void **state)
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_set_item_str(st->sess, "/ops:cont/list1[k='key']", NULL, NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     /* subscribe to the data so they are actually present in operational */
@@ -712,7 +712,7 @@ test_multi(void **state)
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_set_item_str(st->sess, "/ops:cont/list1[k='key']", NULL, NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     /* subscribe to the data so they are actually present in operational */
@@ -1157,7 +1157,7 @@ test_action_deps(void **state)
 
     ret = sr_set_item_str(st->sess, "/act:advanced/condition", "true", NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     ret = sr_session_switch_ds(st->sess, SR_DS_RUNNING);
@@ -1221,7 +1221,7 @@ action_change_config_cb(sr_session_ctx_t *session, const char *xpath, const sr_v
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_set_item_str(session, "/ops:cont/list1[k='val2']", NULL, NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(session, 0, 0);
+    ret = sr_apply_changes(session, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     ++st->cb_called;
@@ -1252,7 +1252,7 @@ test_action_change_config(void **state)
     /* create the data in running and subscribe to them */
     ret = sr_set_item_str(st->sess, "/ops:cont/list1[k='val']", NULL, NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_module_change_subscribe(st->sess, "ops", NULL, module_change_dummy_cb, NULL, 0, 0, &subscr2);
     assert_int_equal(ret, SR_ERR_OK);
@@ -1525,7 +1525,7 @@ test_rpc_action_with_no_thread(void **state)
     assert_int_equal(ret, SR_ERR_OK);
     ret = sr_set_item_str(st->sess, "/ops-ref:l2", "l2-val", NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     /* create first RPC */
@@ -1565,7 +1565,7 @@ test_rpc_action_with_no_thread(void **state)
     /* set some data needed for validation and executing the actions */
     ret = sr_set_item_str(st->sess, "/ops:cont/list1[k='key']", NULL, NULL, 0);
     assert_int_equal(ret, SR_ERR_OK);
-    ret = sr_apply_changes(st->sess, 0, 0);
+    ret = sr_apply_changes(st->sess, 0);
     assert_int_equal(ret, SR_ERR_OK);
 
     /* subscribe to the data so they are actually present in operational */
